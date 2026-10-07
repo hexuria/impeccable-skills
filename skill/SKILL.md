@@ -22,9 +22,15 @@ this file.
 
 Gather evidence in this order; stop at the first tier that resolves:
 
-1. **Changed files.** The files the task touches (`git diff --name-only`,
+1. **Changed files.** The files the task touches (`git status --porcelain`
+   or `git diff --name-only HEAD` — staged, unstaged, and untracked —
    the diff under review, the paths the user points at). Match extensions
-   against `signals.extensions` in `registry.yaml`.
+   against `signals.extensions` in `registry.yaml`. An extension that
+   names a language the registry does not cover (`.go`, `.ts`, `.java`,
+   …) is still language evidence: it resolves to "not covered" — do not
+   fall through to manifests to find a covered language. Only a change
+   with no language signal at all (docs, configs, data, an empty diff)
+   continues to tier 2.
 2. **Manifests.** Match repo-root files against `signals.manifests`. In a
    monorepo, check for a manifest beside the changed paths — a component's
    own manifest beats the repo root's.
@@ -60,7 +66,11 @@ with `<skill>` from the registry row (e.g. `<skills-dir>/impeccable-rust`).
   ```
 
   Follow the member repo's own README install instructions when they
-  differ.
+  differ. If `<skills-dir>/<skill>` exists without a `SKILL.md` (a
+  partial or stale install), move it aside first —
+  `mv <skills-dir>/<skill> <skills-dir>/<skill>.bak` — so `cp -r` does
+  not nest `skill/` inside it. Verify `<skills-dir>/<skill>/SKILL.md`
+  exists before handing off.
 - If you cannot install (no network, no git, a read-only skills dir),
   give the user this one line, filling in the registry row's values, and
   stop:
