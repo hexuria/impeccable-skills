@@ -23,8 +23,8 @@ this file.
 Gather evidence in this order; stop at the first tier that resolves:
 
 1. **Changed files.** The files the task touches (`git status --porcelain`
-   or `git diff --name-only HEAD` — staged, unstaged, and untracked —
-   the diff under review, the paths the user points at). Match extensions
+   covers staged, unstaged, and untracked files; also the diff under
+   review, the paths the user points at). Match extensions
    against `signals.extensions` in `registry.yaml`. An extension that
    names a language the registry does not cover (`.go`, `.ts`, `.java`,
    …) is still language evidence: it resolves to "not covered" — do not
