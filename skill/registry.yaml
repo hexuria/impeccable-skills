@@ -1,0 +1,30 @@
+# Member skills of the impeccable family. One entry per language.
+#
+# To add a language, add one entry:
+#
+#   language  what the router calls it in its report ("rust")
+#   skill     member skill name = the folder it installs under in the
+#             skills dir, and the `name` in that skill's SKILL.md
+#   repo      public git URL whose `skill/` folder is the member skill
+#   signals.extensions  file extensions that identify the language
+#   signals.manifests   repo-root (or component-root) files that identify it
+#   signals.words       whole words in the user's prompt that identify it —
+#                       keep them distinctive; generic words misroute
+#
+# Evidence is consulted in the order extensions → manifests → words; see
+# SKILL.md for conflict and mixed-repo rules.
+members:
+  - language: rust
+    skill: impeccable-rust
+    repo: https://github.com/hexuria/impeccable-rust
+    signals:
+      extensions: [.rs]
+      manifests: [Cargo.toml]
+      words: [rust, cargo, crate]
+  - language: python
+    skill: impeccable-python
+    repo: https://github.com/hexuria/impeccable-python
+    signals:
+      extensions: [.py, .pyi, .ipynb]
+      manifests: [pyproject.toml, setup.py, setup.cfg, requirements.txt, uv.lock, Pipfile]
+      words: [python, pypi, pytest, pip]
